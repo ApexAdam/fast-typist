@@ -1,0 +1,15 @@
+{
+  "name": "fasttypist",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "homepage": "https://vathox.github.io/fast-typist",
+  "scripts": {
+    "deploy": "gh-pages -d dist"
+  },
+  "author": "Adam Dzierzko",
+  "license": "ISC",
+  "dependencies": {
+    "gh-pages": "^1.2.0"
+  }
+}
