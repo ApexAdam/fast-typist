@@ -1,11 +1,11 @@
 window.addEventListener('load', init);
 
-const levels ={
-    easy: 4,
-    medium: 3,
-    diablo: 2
+const levels = {
+    Easy: 5,
+    Medium: 4,
+    Diablo: 3
 };
-const currentLevel = levels.diablo;
+let currentLevel = levels.Easy;
 let time = currentLevel;
 let score = 0;
 let isPlaying;
@@ -16,6 +16,10 @@ const scoreDisplay = document.querySelector('#score');
 const timeDisplay = document.querySelector('#time');
 const message = document.querySelector('#message');
 const seconds = document.querySelector('#seconds');
+const buttonEasy = document.querySelector('#button-easy');
+const buttonMedium = document.querySelector('#button-medium');
+const buttonDiablo = document.querySelector('#button-diablo');
+
 
 const words = [
     'which',
@@ -856,12 +860,32 @@ function init() {
     setInterval(countdown, 1000);
     wordInput.addEventListener('input', startGame);
     setInterval(checkStatus, 50);
+    buttonEasy.addEventListener('click', function () {
+        currentLevel = levels.Easy;
+        time = currentLevel;
+        startGame()
+    });
+    buttonMedium.addEventListener('click', function () {
+        currentLevel = levels.Medium;
+        time = currentLevel;
+        startGame()
+    });
+    buttonDiablo.addEventListener('click', function () {
+        currentLevel = levels.Diablo;
+        time = currentLevel;
+        startGame()
+    });
+
 }
 
 function showWord(words) {
 
-    const randomIndex = Math.floor(Math.random() * words.length);
-    currentWord.innerHTML = words[randomIndex];
+    if (currentLevel.valueOf() === levels.Diablo) {
+        currentWord.innerHTML = createRandomWord();
+    } else {
+        const randomIndex = Math.floor(Math.random() * words.length);
+        currentWord.innerHTML = words[randomIndex];
+    }
 }
 
 function countdown() {
@@ -870,6 +894,7 @@ function countdown() {
     } else if (time === 0) {
         isPlaying = false;
     }
+    console.log(time);
     timeDisplay.innerHTML = time;
 }
 
@@ -881,6 +906,9 @@ function checkStatus() {
 }
 
 function startGame() {
+
+    seconds.innerHTML = currentLevel;
+
     if (matchWords()) {
         isPlaying = true;
         time = currentLevel + 1;
