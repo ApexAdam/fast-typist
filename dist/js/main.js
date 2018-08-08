@@ -863,16 +863,19 @@ function init() {
     buttonEasy.addEventListener('click', function () {
         currentLevel = levels.Easy;
         time = currentLevel;
+        showWord(words);
         startGame()
     });
     buttonMedium.addEventListener('click', function () {
         currentLevel = levels.Medium;
         time = currentLevel;
+        showWord(words);
         startGame()
     });
     buttonDiablo.addEventListener('click', function () {
         currentLevel = levels.Diablo;
         time = currentLevel;
+        showWord(words);
         startGame()
     });
 
@@ -900,6 +903,8 @@ function countdown() {
 
 function checkStatus() {
     if (!isPlaying && time === 0) {
+        message.classList.remove('text-success');
+        message.classList.add('text-danger');
         message.innerHTML = 'Game Over';
         score = -1;
     }
@@ -925,6 +930,8 @@ function startGame() {
 
 function matchWords() {
     if (wordInput.value === currentWord.innerHTML) {
+        message.classList.remove('text-danger');
+        message.classList.add('text-success');
         message.innerHTML = 'Correct!';
         return true
     } else {
