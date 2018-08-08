@@ -8,6 +8,9 @@ const levels = {
 let currentLevel = levels.Easy;
 let time = currentLevel;
 let score = 0;
+let highscoreEasy = localStorage.getItem('highscoreEasy') || score;
+let highscoreMedium = localStorage.getItem('highscoreMedium') || score;
+let highscoreDiablo = localStorage.getItem('highscoreDiablo') || score;
 let isPlaying;
 
 const wordInput = document.querySelector('#word-input');
@@ -19,6 +22,9 @@ const seconds = document.querySelector('#seconds');
 const buttonEasy = document.querySelector('#button-easy');
 const buttonMedium = document.querySelector('#button-medium');
 const buttonDiablo = document.querySelector('#button-diablo');
+const highScoreEasy = document.querySelector('#high-score-easy');
+const highScoreMedium = document.querySelector('#high-score-medium');
+const highScoreDiablo = document.querySelector('#high-score-diablo');
 
 
 const words = [
@@ -863,22 +869,27 @@ function init() {
     buttonEasy.addEventListener('click', function () {
         currentLevel = levels.Easy;
         time = currentLevel;
+        score = 0;
         showWord(words);
         startGame()
     });
     buttonMedium.addEventListener('click', function () {
         currentLevel = levels.Medium;
         time = currentLevel;
+        score = 0;
         showWord(words);
         startGame()
     });
     buttonDiablo.addEventListener('click', function () {
         currentLevel = levels.Diablo;
         time = currentLevel;
+        score = 0;
         showWord(words);
         startGame()
     });
-
+    highScoreEasy.innerHTML = highscoreEasy;
+    highScoreMedium.innerHTML = highscoreMedium;
+    highScoreDiablo.innerHTML = highscoreDiablo;
 }
 
 function showWord(words) {
@@ -897,7 +908,6 @@ function countdown() {
     } else if (time === 0) {
         isPlaying = false;
     }
-    console.log(time);
     timeDisplay.innerHTML = time;
 }
 
@@ -921,10 +931,26 @@ function startGame() {
         wordInput.value = '';
         score++;
     }
+    if (currentLevel === levels.Easy && score > highscoreEasy) {
+        highscoreEasy = score;
+        localStorage.setItem('highscoreEasy', score);
+    }
+    if (currentLevel === levels.Medium && score > highscoreMedium) {
+        highscoreMedium = score;
+        localStorage.setItem('highscoreMedium', score);
+    }
+    if (currentLevel === levels.Diablo && score > highscoreDiablo) {
+        highscoreDiablo = score;
+        localStorage.setItem('highscoreDiablo', score);
+    }
     if (score === -1) {
         scoreDisplay.innerHTML = '0';
     } else {
         scoreDisplay.innerHTML = score;
+        highScoreEasy.innerHTML = highscoreEasy;
+        highScoreMedium.innerHTML = highscoreMedium;
+        highScoreDiablo.innerHTML = highscoreDiablo;
+
     }
 }
 
@@ -944,7 +970,7 @@ function matchWords() {
 function createRandomWord() {
 
     let text = "";
-    const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_+`~[{]}|<,.>?/;";
 
     for (let i = 0; i < 5; i++)
         text += possible.charAt(Math.floor(Math.random() * possible.length));
